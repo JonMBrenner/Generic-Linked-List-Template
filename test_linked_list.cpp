@@ -1,18 +1,19 @@
-#include "linked_list.h"
+#include "linked_list.hpp"
 #include "catch.hpp"
 
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
+#include <string>
 
 TEST_CASE("create and destroy") {
-  jmb::LinkedList list;
+  jmb::LinkedList<int> list;
   REQUIRE(list.empty());
   REQUIRE(list.size() == 0);
 }
 
 TEST_CASE("insert one at front") {
-  jmb::LinkedList list;
+  jmb::LinkedList<std::string> list;
   list.append_front("hello");
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 1);
@@ -20,28 +21,28 @@ TEST_CASE("insert one at front") {
 }
 
 TEST_CASE("insert one at back") {
-  jmb::LinkedList list;
-  list.append_back("hello");
+  jmb::LinkedList<double> list;
+  list.append_back(12.5);
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 1);
-  REQUIRE(list[0] == "hello");
+  REQUIRE(list[0] == 12.5);
 }
 
 TEST_CASE("insert several at front") {
-  jmb::LinkedList list;
-  list.append_front("abc");
+  jmb::LinkedList<int> list;
+  list.append_front(1);
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 1);
-  list.append_front("def");
+  list.append_front(27);
   REQUIRE(list.size() == 2);
-  list.append_front("12345");
+  list.append_front(12);
   REQUIRE(list.size() == 3);
-  list.append_front("last");
+  list.append_front(17);
   REQUIRE(list.size() == 4);
-  REQUIRE(list[3] == "abc");
-  REQUIRE(list[2] == "def");
-  REQUIRE(list[1] == "12345");
-  REQUIRE(list[0] == "last");
+  REQUIRE(list[3] == 1);
+  REQUIRE(list[2] == 27);
+  REQUIRE(list[1] == 12);
+  REQUIRE(list[0] == 17);
 }
 
 TEST_CASE("insert several at back") {
@@ -61,28 +62,30 @@ TEST_CASE("insert several at back") {
   REQUIRE(list[3] == "last");
 }
 
-//TODO append front and append back
-
-TEST_CASE("can modify contained strings") {
-  jmb::LinkedList list;
-  list.append_front("hi");
-  list[0][0] = 'x';
-  REQUIRE(list[0] == "xi");
+TEST_CASE("append front and back") {
+  jmb::LinkedList<float> list;
+  list.append_front(12.3);
+  list.append_back(14);
+  list.append_front(15.7);
+  REQUIRE(list.size() == 3);
+  REQUIRE(list[0] == 15.7);
+  REQUIRE(list[1] == 12.3);
+  REQUIRE(list[2] == 14);
 }
 
 TEST_CASE("const correctness on at") {
-  const jmb::LinkedList list;
+  const jmb::LinkedList<std::string> list;
   REQUIRE(std::is_const_v<std::remove_reference_t<decltype(list[0])>>);
 }
 
 TEST_CASE("const correctness on size and empty") {
-  const jmb::LinkedList list;
+  const jmb::LinkedList<int> list;
   list.empty();
   list.size();
 }
 
 TEST_CASE("copy constructor") {
-  jmb::LinkedList original;
+  jmb::LinkedList<std::string> original;
   original.append_back("two");
   original.append_back("three");
   original.append_front("one");
@@ -92,7 +95,7 @@ TEST_CASE("copy constructor") {
   // 1) LinkedList copy{original}
   // 2) LinkedList copy(original);
   // 3) LinkedList copy = original; (looks like operator= but isn't)
-  jmb::LinkedList copy{original};
+  jmb::LinkedList<std::string> copy{original};
   REQUIRE(copy.size() == 3);
   REQUIRE(copy[0] == "one");
   REQUIRE(copy[1] == "two");
@@ -103,12 +106,12 @@ TEST_CASE("copy constructor") {
 }
 
 TEST_CASE("copy assignment") {
-  jmb::LinkedList original;
+  jmb::LinkedList<std::string> original;
   original.append_back("dos");
   original.append_back("tres");
   original.append_front("uno");
 
-  jmb::LinkedList copy;
+  jmb::LinkedList<std::string> copy;
   copy.append_back("hey");
   copy.append_back("you");
 
@@ -120,31 +123,31 @@ TEST_CASE("copy assignment") {
 }
 
 TEST_CASE("remove front") {
-  jmb::LinkedList list;
-  list.append_front("three");
-  list.append_front("two");
-  list.append_front("one");
+  jmb::LinkedList<int> list;
+  list.append_front(3);
+  list.append_front(2);
+  list.append_front(1);
   list.remove(0);
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 2);
-  REQUIRE(list[0] == "two");
-  REQUIRE(list[1] == "three");
+  REQUIRE(list[0] == 2);
+  REQUIRE(list[1] == 3);
 }
 
 TEST_CASE("remove last") {
-  jmb::LinkedList list;
-  list.append_front("three");
-  list.append_front("two");
-  list.append_front("one");
+  jmb::LinkedList<float> list;
+  list.append_front(3);
+  list.append_front(2);
+  list.append_front(1);
   list.remove(2);
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 2);
-  REQUIRE(list[0] == "one");
-  REQUIRE(list[1] == "two");
+  REQUIRE(list[0] == 1);
+  REQUIRE(list[1] == 2);
 }
 
 TEST_CASE("remove middle") {
-  jmb::LinkedList list;
+  jmb::LinkedList<std::string> list;
   list.append_back("one");
   list.append_back("two");
   list.append_back("three");
@@ -171,7 +174,7 @@ TEST_CASE("remove middle") {
 }
 
 TEST_CASE("remove all elements") {
-  jmb::LinkedList list;
+  jmb::LinkedList<std::string> list;
 
   list.append_back("one");
   list.append_back("two");
@@ -186,17 +189,17 @@ TEST_CASE("remove all elements") {
 }
 
 TEST_CASE("equality") {
-  jmb::LinkedList list1;
+  jmb::LinkedList<int> list1;
 
-  list1.append_back("one");
-  list1.append_back("two");
-  list1.append_back("three");
+  list1.append_back(1);
+  list1.append_back(2);
+  list1.append_back(3);
 
   auto list2 = list1;
   REQUIRE(list1 == list2);
   REQUIRE_FALSE(list1 != list2);
 
-  list1.append_front("zero");
+  list1.append_front(0);
   REQUIRE_FALSE(list1 == list2);
   REQUIRE(list1 != list2);
 
@@ -204,21 +207,17 @@ TEST_CASE("equality") {
   REQUIRE(list1 == list2);
   REQUIRE_FALSE(list1 != list2);
 
-  list1.append_back("four");
+  list1.append_back(4);
   REQUIRE_FALSE(list1 == list2);
   REQUIRE(list1 != list2);
 
   list1.remove(3);
   REQUIRE(list1 == list2);
   REQUIRE_FALSE(list1 != list2);
-
-  list1[0][0] = 'x';
-  REQUIRE_FALSE(list1 == list2);
-  REQUIRE(list1 != list2);
 }
 
 TEST_CASE("out of range exceptions") {
-  jmb::LinkedList list;
+  jmb::LinkedList<std::string> list;
   list.append_back("one");
   REQUIRE_THROWS_AS(list[1], std::out_of_range);
   REQUIRE_THROWS_AS(std::as_const(list)[1], std::out_of_range);
