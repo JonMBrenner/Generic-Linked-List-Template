@@ -17,8 +17,7 @@ cc_test(
 
 cc_library(
     name = "linked_list",
-    srcs = ["linked_list.cpp",],
-    hdrs = ["linked_list.h",],
+    hdrs = ["linked_list.hpp",],
     copts = flags,
 )
 
