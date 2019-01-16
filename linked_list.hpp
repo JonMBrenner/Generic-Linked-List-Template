@@ -23,7 +23,23 @@ class LinkedList {
       tail_ = cur;
     }
 
-    //LinkedList& operator=(const LinkedList& other);
+    LinkedList& operator=(const LinkedList& other) {
+      if (this == &other) {
+        return *this;
+      }
+      this->~LinkedList();
+      size_ = other.size_;
+      head_ = new Node{other.head_->data_, other.head_->next_};
+      Node* cur = head_;
+      Node* cur_other = other.head_;
+      for (std::size_t i = 1; i < size_; ++i) {
+        cur_other = cur_other->next_;
+        cur->next_ = new Node{cur_other->data_, cur_other->next_};
+        cur = cur->next_;
+      }
+      tail_ = cur;
+      return *this;
+    }
 
     ~LinkedList() {
       Node* cur = head_;
