@@ -28,7 +28,6 @@ TEST_CASE("insert one at back") {
   REQUIRE(list[0] == 12.5);
 }
 
-#if 0
 TEST_CASE("insert several at front") {
   jmb::LinkedList<int> list;
   list.append_front(1);
@@ -47,7 +46,7 @@ TEST_CASE("insert several at front") {
 }
 
 TEST_CASE("insert several at back") {
-  jmb::LinkedList list;
+  jmb::LinkedList<std::string> list;
   list.append_back("abc");
   REQUIRE_FALSE(list.empty());
   REQUIRE(list.size() == 1);
@@ -63,22 +62,12 @@ TEST_CASE("insert several at back") {
   REQUIRE(list[3] == "last");
 }
 
-TEST_CASE("append front and back") {
-  jmb::LinkedList<float> list;
-  list.append_front(12.3);
-  list.append_back(14);
-  list.append_front(15.7);
-  REQUIRE(list.size() == 3);
-  REQUIRE(list[0] == 15.7);
-  REQUIRE(list[1] == 12.3);
-  REQUIRE(list[2] == 14);
-}
-
 TEST_CASE("const correctness on at") {
   const jmb::LinkedList<std::string> list;
   REQUIRE(std::is_const_v<std::remove_reference_t<decltype(list[0])>>);
 }
 
+#if 0
 TEST_CASE("const correctness on size and empty") {
   const jmb::LinkedList<int> list;
   list.empty();

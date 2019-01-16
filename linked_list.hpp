@@ -64,7 +64,17 @@ class LinkedList {
       return cur->data_;
     }
 
-    //const std::string& operator[](std::size_t index) const;
+    const T& operator[](std::size_t index) const {
+      if (this->empty() || index > size_-1) {
+        throw std::out_of_range("index out of range");
+      }
+      Node* cur = head_;
+      for (std::size_t i = 0; i < index; ++i) {
+        cur = cur->next_;
+      }
+      return cur->data_;
+    }
+
     //bool operator==(const LinkedList& other) const;
     //bool operator!=(const LinkedList& other) const;
 
