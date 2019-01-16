@@ -74,10 +74,28 @@ class LinkedList {
       ++size_;
     }
 
-    //void remove(std::size_t index);
+    void remove(std::size_t index) {
+      if (this->empty() || index >= size_) {
+        throw std::out_of_range("index out of range");
+      }
+      Node* remove;
+      if (index == 0) {
+        remove = head_;
+        head_ = head_->next_;
+      } else {
+        Node* cur = head_;
+        for (std::size_t i = 0; i < index-1; ++i) {
+          cur = cur->next_;
+        }
+        remove = cur->next_;
+        cur->next_ = cur->next_->next_;
+      }
+      delete remove;
+      --size_;
+    }
 
     T& operator[](std::size_t index) {
-      if (this->empty() || index > size_-1) {
+      if (this->empty() || index >= size_) {
         throw std::out_of_range("index out of range");
       }
       Node* cur = head_;
@@ -88,7 +106,7 @@ class LinkedList {
     }
 
     const T& operator[](std::size_t index) const {
-      if (this->empty() || index > size_-1) {
+      if (this->empty() || index >= size_) {
         throw std::out_of_range("index out of range");
       }
       Node* cur = head_;
