@@ -19,7 +19,7 @@ TEST_CASE("insert one at front") {
   REQUIRE(list.size() == 1);
   REQUIRE(list[0] == "hello");
 }
-#if 0
+
 TEST_CASE("insert one at back") {
   jmb::LinkedList<double> list;
   list.append_back(12.5);
@@ -28,6 +28,7 @@ TEST_CASE("insert one at back") {
   REQUIRE(list[0] == 12.5);
 }
 
+#if 0
 TEST_CASE("insert several at front") {
   jmb::LinkedList<int> list;
   list.append_front(1);

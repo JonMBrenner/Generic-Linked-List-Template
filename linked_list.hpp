@@ -31,14 +31,29 @@ class LinkedList {
     }
 
     void append_front(T data) {
-      head_ = new Node{data, head_};
+      if (this->empty()) {
+        head_ = new Node{data, nullptr};
+        tail_ = head_;
+      } else {
+        head_ = new Node{data, head_};
+      }
       ++size_;
     }
 
-    //void append_back(std::string data);
+    void append_back(T data) {
+      if (this->empty()) {
+        head_ = new Node{data, nullptr};
+        tail_ = head_;
+      } else {
+        tail_->next_ = new Node{data, nullptr};
+        tail_ = tail_->next_;
+      }
+      ++size_;
+    }
+
     //void remove(std::size_t index);
 
-    std::string& operator[](std::size_t index) {
+    T& operator[](std::size_t index) {
       if (this->empty() || index > size_-1) {
         throw std::out_of_range("index out of range");
       }
