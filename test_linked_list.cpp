@@ -123,7 +123,6 @@ TEST_CASE("remove front") {
   REQUIRE(list[1] == 3);
 }
 
-#if 0
 TEST_CASE("remove last") {
   jmb::LinkedList<float> list;
   list.append_front(3);
@@ -219,4 +218,3 @@ TEST_CASE("out of range exceptions") {
   REQUIRE_THROWS_AS(std::as_const(list)[0], std::out_of_range);
   REQUIRE_THROWS_AS(list.remove(0), std::out_of_range);
 }
-#endif

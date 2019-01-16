@@ -116,8 +116,25 @@ class LinkedList {
       return cur->data_;
     }
 
-    //bool operator==(const LinkedList& other) const;
-    //bool operator!=(const LinkedList& other) const;
+    bool operator==(const LinkedList& other) const {
+      if (size_ != other.size_) {
+        return false;
+      }
+      Node* cur = head_;
+      Node* cur_other = other.head_;
+      for (std::size_t i = 0; i < size_; ++i) {
+        if (cur->data_ != cur_other->data_) {
+          return false;
+        }
+        cur = cur->next_;
+        cur_other = cur_other->next_;
+      }
+      return true;
+    }
+
+    bool operator!=(const LinkedList& other) const {
+      return !(*this == other);
+    }
 
   private:
     struct Node {
