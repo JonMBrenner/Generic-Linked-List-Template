@@ -27,7 +27,7 @@ class LinkedList {
       if (this == &other) {
         return *this;
       }
-      this->~LinkedList();
+      this->destroy();
       size_ = other.size_;
       head_ = new Node{other.head_->data_, other.head_->next_};
       Node* cur = head_;
@@ -42,13 +42,7 @@ class LinkedList {
     }
 
     ~LinkedList() {
-      Node* cur = head_;
-      Node* next;
-      for (std::size_t i = 0; i < size_; ++i) {
-        next = cur->next_;
-        delete cur;
-        cur = next;
-      }
+      this->destroy();
     }
 
     bool empty() const {
@@ -115,6 +109,16 @@ class LinkedList {
     Node* head_{};
     Node* tail_{};
     std::size_t size_{};
+
+    void destroy() {
+      Node* cur = head_;
+      Node* next;
+      for (std::size_t i = 0; i < size_; ++i) {
+        next = cur->next_;
+        delete cur;
+        cur = next;
+      }
+    }
 };
 }
 
