@@ -11,7 +11,7 @@ TEST_CASE("create and destroy") {
   REQUIRE(list.empty());
   REQUIRE(list.size() == 0);
 }
-#if 0
+
 TEST_CASE("insert one at front") {
   jmb::LinkedList<std::string> list;
   list.append_front("hello");
@@ -19,7 +19,7 @@ TEST_CASE("insert one at front") {
   REQUIRE(list.size() == 1);
   REQUIRE(list[0] == "hello");
 }
-
+#if 0
 TEST_CASE("insert one at back") {
   jmb::LinkedList<double> list;
   list.append_back(12.5);

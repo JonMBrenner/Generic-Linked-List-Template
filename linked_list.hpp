@@ -2,7 +2,7 @@
 #define LINKED_LIST_JMB_H_
 
 #include <cstddef>
-#include <string>
+#include <stdexcept>
 
 namespace jmb {
 template <typename T>
@@ -11,7 +11,16 @@ class LinkedList {
     LinkedList() = default;
     //LinkedList(const LinkedList& other);
     //LinkedList& operator=(const LinkedList& other);
-    //~LinkedList();
+
+    ~LinkedList() {
+      Node* cur = head_;
+      Node* next;
+      for (std::size_t i = 0; i < size_; ++i) {
+        next = cur->next_;
+        delete cur;
+        cur = next;
+      }
+    }
 
     bool empty() const {
       return !size_;
@@ -21,10 +30,25 @@ class LinkedList {
       return size_;
     }
 
-    //void append_front(std::string data);
+    void append_front(T data) {
+      head_ = new Node{data, head_};
+      ++size_;
+    }
+
     //void append_back(std::string data);
     //void remove(std::size_t index);
-    //std::string& operator[](std::size_t index);
+
+    std::string& operator[](std::size_t index) {
+      if (this->empty() || index > size_-1) {
+        throw std::out_of_range("index out of range");
+      }
+      Node* cur = head_;
+      for (std::size_t i = 0; i < index; ++i) {
+        cur = cur->next_;
+      }
+      return cur->data_;
+    }
+
     //const std::string& operator[](std::size_t index) const;
     //bool operator==(const LinkedList& other) const;
     //bool operator!=(const LinkedList& other) const;
@@ -35,6 +59,7 @@ class LinkedList {
       Node* next_{};
     };
     Node* head_{};
+    Node* tail_{};
     std::size_t size_{};
 };
 }
