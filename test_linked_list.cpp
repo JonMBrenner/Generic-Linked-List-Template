@@ -67,7 +67,6 @@ TEST_CASE("const correctness on at") {
   REQUIRE(std::is_const_v<std::remove_reference_t<decltype(list[0])>>);
 }
 
-#if 0
 TEST_CASE("const correctness on size and empty") {
   const jmb::LinkedList<int> list;
   list.empty();
@@ -95,6 +94,7 @@ TEST_CASE("copy constructor") {
   REQUIRE(copy[0] == "one");
 }
 
+#if 0
 TEST_CASE("copy assignment") {
   jmb::LinkedList<std::string> original;
   original.append_back("dos");
